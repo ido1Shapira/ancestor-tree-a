@@ -8,30 +8,30 @@ using namespace std;
 
 namespace family {
 
-    // struct node{
-	//     string name;
-	//     node *father;
-	//     node *mother;
-    // };
-
     class Tree {
 
+        
             string name;
+            Tree* son;
             Tree* father;
             Tree* mother;
 
             Tree* findSon(string name);
     public:
-
             Tree (string name) { 
                 this->name = name;
                 this->father = this->mother = NULL;
+                this->son = NULL;
             }
-            ~Tree() {remove(this->name);}
-
-            string getName(){return name;}
-            Tree* getFather(){return father;}
-            Tree* getMother(){return mother;}
+            Tree (string name,Tree* mySon) { 
+                this->name = name;
+                this->father = this->mother = NULL;
+                this->son = mySon;
+            }
+            ~Tree() {
+                printf("distractor:\n");
+                remove(this->name);
+            }
 
             Tree& addFather(string son, string father);
             Tree& addMother(string son, string mother);
@@ -39,8 +39,11 @@ namespace family {
             string find(string relation);
             void display();
             bool remove(string person);  
+    private:
+            void print2DUtil(Tree *root, int space);
+            Tree* findMe(Tree* current, string name);
+            string find(Tree* t,string relation);
+            void removeTree(Tree* t);
 
     };
-
-    void print2DUtil(Tree* root, int space );
 }
