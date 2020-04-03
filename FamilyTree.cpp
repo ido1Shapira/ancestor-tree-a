@@ -11,11 +11,12 @@ using namespace family;
 
 Tree& Tree::addFather(string son, string father){
     Tree* son_p = findMe(this,son);
-    if(son_p != NULL){
+    if(son_p != NULL && son_p->father == NULL){
         son_p->father=new Tree(father,son_p);
     }
     else {
-        printf("could not find name: %s in call: addFather(%s,%s)\n",son.c_str(),son.c_str(),father.c_str());
+        throw runtime_error("could not find '"+son+ "' in the tree or this son already has a father.");
+        // printf("could not find name: %s in call: addFather(%s,%s)\n",son.c_str(),son.c_str(),father.c_str());
     }
     return *this;
 }
@@ -25,7 +26,8 @@ Tree& Tree::addMother(string son, string mother){
         son_p->mother=new Tree(mother,son_p);
     }
     else {
-        printf("could not find name: %s in call: addMother(%s,%s)\n",son.c_str(),son.c_str(),mother.c_str());
+        throw runtime_error("could not find '"+son+ "' in the tree or this son already has a mother.");
+        // printf("could not find name: %s in call: addMother(%s,%s)\n",son.c_str(),son.c_str(),mother.c_str());
     }
     return *this;
 }
@@ -87,7 +89,12 @@ string Tree::find(Tree* current, string relation) {
         if(current->father != NULL && current->father->mother != NULL) return current->father->mother->name;
         return "";
     }
-    return find(current->father, relation.substr(great)) + find(current->mother, relation.substr(great));
+    string fatherAns = find(current->father, relation.substr(great));
+    string motherAns = find(current->mother, relation.substr(great));
+    if(fatherAns != "" && motherAns != "") { //there is more then one answer
+        return fatherAns;
+    }
+    return  fatherAns + motherAns;
 
 }
 
@@ -99,22 +106,21 @@ void Tree::display(){
 bool Tree::remove(string person) {
     Tree* toRemove = findMe(this,person);
     if(toRemove == NULL) return false;
-    printf("toRemove=%s\n", toRemove->name.c_str());
+    // printf("toRemove=%s\n", toRemove->name.c_str());
     Tree* son = toRemove->son;
-    printf("son=%s\n", son->name.c_str());
+    // printf("son=%s\n", son->name.c_str());
   
     if(son != NULL) {
         if(son->father->name == person) {
-            printf("person is father: %s\n",person.c_str());
+            // printf("person is father: %s\n",person.c_str());
             son->father = NULL;
         }
         else {
-            printf("person is mother: %s\n",person.c_str());
+            // printf("person is mother: %s\n",person.c_str());
             son->mother = NULL;
         }
     }
     delete toRemove;
-    printf("finish remove\n");
     return true;
 }
 

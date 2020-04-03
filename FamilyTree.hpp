@@ -29,10 +29,9 @@ namespace family {
                 this->son = mySon;
             }
             ~Tree() {
-                printf("distractor:\n");
                 delete this->father;
                 delete this->mother;
-                printf("delete: %s\n", this->name.c_str());
+                // printf("distractor to: %s\n", this->name.c_str());
             }
 
             Tree& addFather(string son, string father);
