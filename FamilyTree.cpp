@@ -102,29 +102,21 @@ bool Tree::remove(string person) {
     printf("toRemove=%s\n", toRemove->name.c_str());
     Tree* son = toRemove->son;
     printf("son=%s\n", son->name.c_str());
+  
     if(son != NULL) {
         if(son->father->name == person) {
-            printf("person is father\n");
+            printf("person is father: %s\n",person.c_str());
             son->father = NULL;
         }
         else {
-            printf("person is mother\n");
+            printf("person is mother: %s\n",person.c_str());
             son->mother = NULL;
         }
     }
-  
-    removeTree(toRemove);
+    delete toRemove;
     printf("finish remove\n");
     return true;
 }
-
-void Tree::removeTree(Tree* t){
-    if(t != NULL) {
-        removeTree(t->father);
-        removeTree(t->mother);
-        delete t;
-    }
-} 
 
 // https://www.geeksforgeeks.org/print-binary-tree-2-dimensions/
 void Tree::print2DUtil(Tree *root, int space)  

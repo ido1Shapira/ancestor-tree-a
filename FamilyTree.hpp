@@ -30,7 +30,9 @@ namespace family {
             }
             ~Tree() {
                 printf("distractor:\n");
-                remove(this->name);
+                delete this->father;
+                delete this->mother;
+                printf("delete: %s\n", this->name.c_str());
             }
 
             Tree& addFather(string son, string father);
@@ -43,7 +45,6 @@ namespace family {
             void print2DUtil(Tree *root, int space);
             Tree* findMe(Tree* current, string name);
             string find(Tree* t,string relation);
-            void removeTree(Tree* t);
 
     };
 }
