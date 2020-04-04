@@ -1,6 +1,7 @@
 #include "FamilyTree.hpp"
 #include <iostream>
-#include <queue>  
+#include <queue>
+
 
 #define great 6
 #define COUNT 10
