@@ -38,7 +38,7 @@ family::Tree T ("Yosef"); // Yosef is the "root" of the tree (the youngest perso
     CHECK(T.relation("Yishmael")==string("unrelated"));
     T.addFather("Isaac", "Avi");
     CHECK( T.relation("Avi") ==string("great-grandfather"));
-	T.display();
+//	T.display();
 family::Tree T2 ("Edut"); 
 	T2.addFather("Edut", "Shay")   
 	 .addMother("Edut", "Lilach")   
@@ -210,8 +210,8 @@ family::Tree T2 ("Edut");
     catch(exception &ex){
         cout<<ex.what()<<endl;
     }
-    T5.display();
-    printf("................................................\n\n\n");
+  //  T5.display();
+ 
     T5.remove("Aharon");
   //  T5.display();
 }

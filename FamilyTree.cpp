@@ -9,26 +9,42 @@
 
 using namespace std;
 using namespace family;
-
+vector<string> split(const string& str, const string& delim)  //https://stackoverflow.com/questions/14265581/parse-split-a-string-in-c-using-string-delimiter-standard-c
+{
+    vector<string> tokens;
+    size_t prev = 0, pos = 0;
+    do
+    {
+        pos = str.find(delim, prev);
+        if (pos == string::npos) pos = str.length();
+        string token = str.substr(prev, pos-prev);
+        if (!token.empty()) tokens.push_back(token);
+        prev = pos + delim.length();
+    }
+    while (pos < str.length() && prev < str.length());
+    return tokens;
+}
 Tree& Tree::addFather(string son, string father){
     Tree* son_p = findMe(this,son);
     if(son_p != NULL && son_p->father == NULL){
         son_p->father=new Tree(father,son_p);
     }
     else {
-        throw runtime_error("could not find '"+son+ "' in the tree or this son already has a father.");
-        // printf("could not find name: %s in call: addFather(%s,%s)\n",son.c_str(),son.c_str(),father.c_str());
+        if(son_p==NULL)
+        throw runtime_error("could not find '"+son+ "' in the tree");
+        else  throw runtime_error("'"+son+"'"+" already has a father");
     }
     return *this;
 }
 Tree& Tree::addMother(string son, string mother){
     Tree* son_p = findMe(this,son);
-    if(son_p != NULL){
+    if(son_p != NULL && son_p->mother == NULL){
         son_p->mother=new Tree(mother,son_p);
     }
     else {
-        throw runtime_error("could not find '"+son+ "' in the tree or this son already has a mother.");
-        // printf("could not find name: %s in call: addMother(%s,%s)\n",son.c_str(),son.c_str(),mother.c_str());
+        if(son_p==NULL)
+        throw runtime_error("could not find '"+son+ "' in the tree");
+        else  throw runtime_error("'"+son+"'"+" already has a mother");
     }
     return *this;
 }
@@ -66,15 +82,19 @@ string Tree::relation(string person){
 }
 
 string Tree::find(string relation) {
+    vector<string> ans= split(relation, "great-");
+    if(ans.size()>1)
+        throw runtime_error("could not find relation: "+relation);
     if(relation == "me")
         return this->name;
-    if(relation.find("father") == string::npos && relation.find("mother")== string::npos) 
-        throw runtime_error("could not find relation: "+relation);
+    // if(relation.find("father") == string::npos && relation.find("mother")== string::npos) 
+    //     throw runtime_error("could not find relation: "+relation);
     if(relation == "father" && this->father != NULL)
         return this->father->name; 
     if(relation == "mother" && this->mother != NULL)
         return this->mother->name;
-
+    if(ans[0]!= "grandfather" && ans[0]!="grandmother")
+        throw runtime_error("could not find relation: "+relation);
     return find(this, relation);
 }
 
