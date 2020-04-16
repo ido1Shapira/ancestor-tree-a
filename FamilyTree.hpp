@@ -39,7 +39,7 @@ namespace family {
             string relation(string person);
             string find(string relation);
             void display();
-            bool remove(string person);  
+            void remove(string person);  
     private:
             void print2DUtil(Tree *root, int space);
             Tree* findMe(Tree* current, string name);

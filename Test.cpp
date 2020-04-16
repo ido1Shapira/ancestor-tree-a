@@ -8,7 +8,7 @@ using namespace family;
 // Id of collaborators 208825539 207950577
 
 TEST_CASE("Test all function in yosef tree") {
-family::Tree T ("Yosef"); // Yosef is the "root" of the tree (the youngest person).
+    Tree T ("Yosef"); // Yosef is the "root" of the tree (the youngest person).
 	T.addFather("Yosef", "Yaakov")   // Tells the tree that the father of Yosef is Yaakov.
 	 .addMother("Yosef", "Rachel")   // Tells the tree that the mother of Yosef is Rachel.
 	 .addFather("Yaakov", "Isaac")
@@ -44,7 +44,7 @@ family::Tree T ("Yosef"); // Yosef is the "root" of the tree (the youngest perso
 //	T.display();
 }
 TEST_CASE("Test all function in Edut tree") {
-family::Tree T2 ("Edut"); 
+    Tree T2 ("Edut"); 
 	T2.addFather("Edut", "Shay")   
 	 .addMother("Edut", "Lilach")   
 	 .addFather("Shay", "Aharon")
@@ -118,7 +118,7 @@ family::Tree T2 ("Edut");
    // T2.display();
 }
 TEST_CASE("Test all function in Tair tree") {
-    family::Tree T3 ("Tair"); 
+    Tree T3 ("Tair"); 
 	T3.addFather("Tair", "Aviel")   
 	 .addMother("Tair", "Tohar")   
 	 .addFather("Aviel", "Shlomo")
@@ -163,7 +163,7 @@ TEST_CASE("Test all function in Tair tree") {
  
 }
 TEST_CASE("Test all function in Shlomo tree") {
-    family::Tree T4 ("Shlomo"); 
+    Tree T4 ("Shlomo"); 
 	T4.addFather("Shlomo", "David")   
 	 .addMother("Shlomo", "Batsheva")   
 	 .addFather("David", "Yishai")
@@ -212,7 +212,7 @@ TEST_CASE("Test all function in Shlomo tree") {
    // T4.display();
 }
 TEST_CASE("Test all function in Ido tree") {
-     family::Tree T5 ("Ido"); 
+    Tree T5 ("Ido"); 
 	T5.addFather("Ido", "Nati")   
 	 .addMother("Ido", "Dana")   
 	 .addFather("Nati", "Shayke")

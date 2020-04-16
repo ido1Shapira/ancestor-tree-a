@@ -62,12 +62,13 @@ Tree* Tree::findMe(Tree* current, string name){
 }
 
 string Tree::relation(string person){
+    
     Tree * tofind= findMe(this, person);
     if(this->name == person ) return "me";
     if(tofind ==NULL) { return "unrelated";}
     int counter=-1;
     string type;
-    if(person == tofind->son->father->name) type="father";
+    if(tofind->son->father != NULL && person == tofind->son->father->name) type="father";
     else type="mother";
     while(tofind != NULL){
         counter ++;
@@ -84,7 +85,7 @@ string Tree::relation(string person){
 string Tree::find(string relation) {
     vector<string> ans= split(relation, "great-");
     if(ans.size()>1)
-        throw runtime_error("could not find relation: "+relation);
+        throw runtime_error("invalid relation: "+relation);
     if(relation == "me")
         return this->name;
     // if(relation.find("father") == string::npos && relation.find("mother")== string::npos) 
@@ -93,9 +94,10 @@ string Tree::find(string relation) {
         return this->father->name; 
     if(relation == "mother" && this->mother != NULL)
         return this->mother->name;
-    if(ans[0]!= "grandfather" && ans[0]!="grandmother")
+    if(ans[0] != "grandfather" && ans[0] != "grandmother")
         throw runtime_error("could not find relation: "+relation);
-    return find(this, relation);
+    string person = find(this, relation);
+    return (person == "") ? throw runtime_error("did not find relation: '"+relation+"'") : person;
 }
 
 string Tree::find(Tree* current, string relation) {
@@ -124,25 +126,20 @@ void Tree::display(){
     print2DUtil(this, 0);
 }
 
-bool Tree::remove(string person) {
+void Tree::remove(string person) {
+    if(person == this->name) throw runtime_error("can not remove the root: '"+person+"'");
     Tree* toRemove = findMe(this,person);
-    if(toRemove == NULL) return false;
-    // printf("toRemove=%s\n", toRemove->name.c_str());
-    Tree* son = toRemove->son;
-    // printf("son=%s\n", son->name.c_str());
-  
+    if(toRemove == NULL) throw runtime_error("did not find person: '"+person+"'");
+    Tree* son = toRemove->son;  
     if(son != NULL) {
-        if(son->father->name == person) {
-            // printf("person is father: %s\n",person.c_str());
+        if(son->father != NULL && son->father->name == person) {
             son->father = NULL;
         }
         else {
-            // printf("person is mother: %s\n",person.c_str());
             son->mother = NULL;
         }
     }
     delete toRemove;
-    return true;
 }
 
 // https://www.geeksforgeeks.org/print-binary-tree-2-dimensions/
@@ -151,20 +148,16 @@ void Tree::print2DUtil(Tree *root, int space)
     // Base case  
     if (root == NULL)  
         return;  
-  
     // Increase distance between levels  
     space += COUNT;  
-  
     // Process right child first  
     print2DUtil(root->father, space);  
-  
     // Print current node after space  
     // count  
     cout<<endl;  
     for (int i = COUNT; i < space; i++)  
         cout<<" ";  
     cout<<root->name<<"\n";  
-  
     // Process left child  
     print2DUtil(root->mother, space);  
 }  
